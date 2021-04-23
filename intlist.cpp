@@ -14,6 +14,7 @@ IntList::IntList(const IntList& source) {
     {
         return;
     }
+
     Node* p = source.first;
     Node* current = nullptr;
     first = new Node;
@@ -21,6 +22,7 @@ IntList::IntList(const IntList& source) {
     first->info = p->info;
     first->next = nullptr;
     current = first;
+    
     p = p->next;
     while(p)            //current is a  pointer to first so it is techincally just 
     {                      //adding nodes to first but it is doing so implicitly 
@@ -31,9 +33,29 @@ IntList::IntList(const IntList& source) {
         p = p->next;                //traversing through p and adding new nodes if it is not null
     }
 }
+
 // destructor deletes all nodes
 IntList::~IntList() {
     //IMPLEMENT THIS
+    //while(first)
+   // {
+        /*
+        Node* p = track->p;
+        delete track;
+        track = p;
+        */
+         while(first)
+        {
+            Node* next =  first-> next;
+            delete first;
+            first = next;
+        }
+
+    
+        
+    //}
+
+
 
 }
 
@@ -107,8 +129,10 @@ double IntList::average() const {
 void IntList::insertFirst(int value) {
     Node* newNode = new Node;
     Node* p = first;
+
     newNode->info = value;
     newNode->next = nullptr;
+
     if(first == nullptr)
     {
         first = newNode;
@@ -118,13 +142,18 @@ void IntList::insertFirst(int value) {
         first = newNode;
     }
     // IMPLEMENT
-
 }
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
     //IMPLEMENT
+    
+    /*
+
+
+    */
+
     return *this;
 }
 
