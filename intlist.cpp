@@ -1,7 +1,5 @@
 // intlist.cpp
-// Implements class IntList
-// Angel Gutierrez, April 22nd
-//YOUR NAME(S), AND DATE
+// Angel Gutierrez, April 22nd 2021
 
 #include "intlist.h"
 #include <iostream>
@@ -9,72 +7,53 @@ using std::cout;
 
 // copy constructor
 IntList::IntList(const IntList& source) {
-    //IMPLEMENT THIS
-     if(source.first == nullptr)
-    {
-        return;
-    }
 
     Node* p = source.first;
-    Node* current = nullptr;
-    first = new Node;
+    Node* currentNode = nullptr;
 
-    first->info = p->info;
-    first->next = nullptr;
-    current = first;
-    
+    first = new Node{p->info, nullptr};
+    currentNode = first;
+
     p = p->next;
-    while(p)            //current is a  pointer to first so it is techincally just 
-    {                      //adding nodes to first but it is doing so implicitly 
-        current->next = new Node;
-        current = current-> next;
-        current->info = p->info;
-        current->next = nullptr;
-        p = p->next;                //traversing through p and adding new nodes if it is not null
+    while(p)             
+    {
+        currentNode->next = new Node;
+        currentNode = currentNode->next;
+        currentNode->info = p->info;
+        currentNode->next = nullptr;
+        p = p->next;                
     }
 }
+
 
 // destructor deletes all nodes
 IntList::~IntList() {
-    //IMPLEMENT THIS
-    //while(first)
-   // {
-        /*
-        Node* p = track->p;
-        delete track;
-        track = p;
-        */
-         while(first)
+    while(first)
         {
-            Node* next =  first-> next;
+            Node* nextNode;
+            nextNode = first->next;
             delete first;
-            first = next;
+            first = nextNode;
         }
-
-    
-        
-    //}
-
-
-
+        first = nullptr;
 }
-
 
 // return sum of values in list
 int IntList::sum() const {
-    int sum(0);
+    int summation(0);
     Node* p = first;
     while(p)
     {
-        sum += p->info;
+        summation += p->info;
         p = p->next;
     }
-    return sum; // REPLACE THIS NON-SOLUTION
+    return summation;
 }
 
 // returns true if value is in the list; false if not
 bool IntList::contains(int value) const {
     Node* p = first;
+
     while(p)
     {
         if(value == p->info)
@@ -83,26 +62,29 @@ bool IntList::contains(int value) const {
         }
         p = p->next;
     }
-    return false; // REPLACE THIS NON-SOLUTION
+    return false;
 }
 
 // returns maximum value in list, or 0 if empty list
 int IntList::max() const {
     Node* p = first;
+
     if(!p)
     {
         return 0;
     }
-    int max(p->info);
+
+    int maxVal(p->info);
+
     while(p)
     {
-        if(max < p->info)
+        if(maxVal < p->info)
         {
-            max = p->info;
+            maxVal = p->info;
         }
         p = p->next;
     }
-    return max; // REPLACE THIS NON-SOLUTION
+    return maxVal;
 }
 
 // returns average (arithmetic mean) of all values, or
@@ -113,27 +95,24 @@ double IntList::average() const {
     {
         return 0;
     }
-    double average(0.0), sum(0.0);
+    double average(0.0), summation(0.0);
     int count(0);
     while(p)
     {
-        sum += p->info;
+        summation += p->info;
         ++count;
         p = p->next;
     }
-    average = sum / count;
-    return average; // REPLACE THIS NON-SOLUTION
+    average = summation / count;
+    return average;
 }
 
 // inserts value as new node at beginning of list
 void IntList::insertFirst(int value) {
-    Node* newNode = new Node;
+    Node* newNode = new Node{value, nullptr};
     Node* p = first;
 
-    newNode->info = value;
-    newNode->next = nullptr;
-
-    if(first == nullptr)
+    if(!first)
     {
         first = newNode;
     }
@@ -141,24 +120,47 @@ void IntList::insertFirst(int value) {
         newNode->next = p;
         first = newNode;
     }
-    // IMPLEMENT
 }
 
 //Assignment operator should copy the list from the source
 //to this list, deleting/replacing any existing nodes
 IntList& IntList::operator=(const IntList& source){
-    //IMPLEMENT
+    //deletes existing nodes
+    while(first)
+        {
+            Node* nextNode =  first-> next;
+            delete first;
+            first = nextNode;
+        }
+    first = nullptr;
+
+    if(this != &source)
+    {
+        
+        if(!source.first)
+        {
+            return *this;              //if it is empty, return it as is
+        }
+
+        Node* p = source.first;
+        Node* current = nullptr;
+
+        first = new Node{p->info, nullptr};
+        current = first;
     
-    /*
-
-
-    */
+        p = p->next;
+        while(p)                    //current is a  pointer to first so it is techincally just 
+        {                           //adding nodes to first but it is doing so implicitly 
+        current->next = new Node;
+        current = current-> next;
+        current->info = p->info;
+        current->next = nullptr;
+        p = p->next;                //traversing through p and adding new nodes if it is not null
+        }
+    }
 
     return *this;
 }
-
-
-
 
 // DO NOT CHANGE ANYTHING BELOW (READ IT THOUGH)
 
